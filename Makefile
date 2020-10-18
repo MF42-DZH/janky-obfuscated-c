@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -O2 -std=c18 -Wall -Wextra
+CFLAGS  = -O2 -std=c18
 LDFLAGS = -lncurses
 TARGET  = jankman
 OBJS    = jankman.o
