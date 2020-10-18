@@ -1,0 +1,18 @@
+CC      = gcc
+CFLAGS  = -O2 -std=c18 -Wall -Wextra
+LDFLAGS = -lpdcurses
+TARGET  = jankman.exe
+OBJS    = jankman
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) *.o $(LDFLAGS)
+
+$(OBJS):
+	$(CC) $(CFLAGS) -o $@.o -c $@.c
+
+clean:
+	del /F $(TARGET) $(OBJS)
+
+rebuild: clean all
