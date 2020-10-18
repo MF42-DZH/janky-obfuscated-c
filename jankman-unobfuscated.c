@@ -20,10 +20,14 @@ void delay( unsigned long ms ) {
 #define JANK(x) (CHARS[x])
 #define SQR(x) ((x) * (x))
 
-const char CHARS[] = { ' ', '.', ':', '=', '#' };
+const char CHARS[] = { ' ', '.', '=', '#' };
 
 double lerp( double v0, double v1, double t ) {
     return (1 - t) * v0 + t * v1;
+}
+
+int approxEqual( double a, double b, double e ) {
+    return ( a >= b - e && a <= b + e );
 }
 
 int isJank( double x, double y, double interval ) {
@@ -39,21 +43,21 @@ int isJank( double x, double y, double interval ) {
     // '=' if in arm / hand
     double acx = (cx - 2) / 8;
     // Arm
-    if ( cx >= -0 && cx <= 3.25 && cy <= SQR(acx) + 0.3 && cy >= SQR(acx) - 0.6 ) {
-        total = 3;
+    if ( cx >= -2 && cx <= 3 && cy <= SQR(acx) + 0.3 && cy >= SQR(acx) - 0.6 ) {
+        total = 2;
         return total;
     }
     // Hand
-    if ( SQR( (cx - 3) / 0.25 ) + SQR( (cy - 0.5) / 0.4 ) <= 1 ) {
-        total = 3; 
+    if ( approxEqual( SQR( (cx - 3) / 0.25 ) + SQR( (cy - 0.5) / 0.4 ), 1, 0.0001 ) ) {
+        total = 2; 
         return total;
     }
-    if ( SQR( (cx - 3) / 2 ) + SQR( cy + 0.5 ) <= 0.08 ) {
-        total = 3; 
+    if ( approxEqual( SQR( (cx - 3) / 2 ) + SQR( cy + 0.5 ), 0.08, 0.0001 ) ) {
+        total = 2; 
         return total;
     }
     if ( ( SQR(cx - 3.25) + SQR(cy - 0.1) <= 0.08 ) || ( SQR(cx - 3.325) + SQR(cy + 0.2) <= 0.08 ) ) { 
-        total = 3;
+        total = 2;
         return total;
     }
 
@@ -66,7 +70,7 @@ int isJank( double x, double y, double interval ) {
         if ( cy <= -1 * SQR(lcx) - 1 ) total = 2;
 
         // Teeth
-        if ( ( cy >= -0.05 * cx - 0.8 ) || (cy <= -0.05 * cx - 1.55 ) ) total = 4;
+        if ( ( cy >= -0.05 * cx - 0.8 ) || (cy <= -0.05 * cx - 1.55 ) ) total = 3;
 
         return total;
     }
@@ -74,7 +78,7 @@ int isJank( double x, double y, double interval ) {
     // Eyes
     if ( ( SQR(cx - 1) + SQR(cy - 0.9) <= 0.2 ) || ( SQR(cx + 0.4) + SQR(cy - 1) <= 0.2 ) ) {
         total = 1;
-        if ( ( SQR(cx - 1.2) + SQR(cy - 0.75) <= 0.01 ) || ( SQR(cx + 0.25) + SQR(cy - 0.85) <= 0.01 ) ) total = 4;
+        if ( ( SQR(cx - 1.2) + SQR(cy - 0.75) <= 0.01 ) || ( SQR(cx + 0.25) + SQR(cy - 0.85) <= 0.01 ) ) total = 3;
 
         return total;
     }
@@ -87,13 +91,14 @@ int isJank( double x, double y, double interval ) {
 }
 
 int main( void ) {
+    #if 0
     for ( int y = 30; y >= -30; --y ) {
         for ( int x = -40; x <= 40; ++x ) {
-            char t = JANK( isJank( x, y, 0.095 ) );
-            printf( "%c%c", t, t );
+            printf( "%c", JANK( isJank( x, y, 0.1 ) ) );
         }
         printf( "\n" );
     }
+    #endif
 
     return 0;
 }

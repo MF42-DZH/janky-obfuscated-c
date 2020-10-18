@@ -2,15 +2,12 @@ CC      = gcc
 CFLAGS  = -O2 -std=c18 -Wall -Wextra
 LDFLAGS = -lncurses
 TARGET  = jankman
-OBJS    = jankman
+OBJS    = jankman.o
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) *.o $(LDFLAGS)
-
-$(OBJS):
-	$(CC) $(CFLAGS) -o $@.o -c $@.c
+	$(CC) $(CFLAGS) -o $(TARGET) $^ $(LDFLAGS)
 
 clean:
 	rm -f $(TARGET) $(OBJS)
