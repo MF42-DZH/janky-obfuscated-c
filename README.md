@@ -25,4 +25,4 @@ Requires `ncurses`.
 
 ## Demonstration
 
-\[INSERT DEMO GIF HERE LATER\]
+[Jank Demonstration GIF](https://github.com/Shots243/janky-obfuscated-c/raw/master/janky-demo.gif)
