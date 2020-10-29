@@ -54,3 +54,4 @@ dkms.conf
 # Unobfuscated Source Files & Exec
 *-unobfuscated*
 jankman
+jankman-exec-x64/*
